@@ -81,6 +81,7 @@ class StoryList {
    * how to get the params
    */
   async addStory(currentUser, { title, author, url }) {
+
     const createStory = await axios({
       url: `${BASE_URL}/stories`,
       method: "POST",
@@ -89,7 +90,11 @@ class StoryList {
         story: { title, author, url }
       },
     });
-    return new Story(createStory.data.story);
+    const newStory = new Story(createStory.data.story);
+    
+    this.stories.unshift(newStory);
+
+    return newStory;
   }
 }
 
@@ -123,6 +128,9 @@ class User {
     // store the login token on the user so it's easy to find for API calls.
     this.loginToken = token;
   }
+
+
+  // addFavorite()
 
   /** Register new user in API, make User instance & return it.
    *
