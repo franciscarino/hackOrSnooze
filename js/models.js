@@ -24,8 +24,8 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    const urlAddress = new URL(this.url);
+    return urlAddress.hostname.replace("www.","");
   }
 }
 
@@ -91,7 +91,7 @@ class StoryList {
       },
     });
     const newStory = new Story(createStory.data.story);
-    
+
     this.stories.unshift(newStory);
 
     return newStory;
@@ -130,7 +130,14 @@ class User {
   }
 
 
-  // addFavorite()
+  async addFavorite(story)  {
+    const favoritedStory = await axios({
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyID}`,
+      method: "POST",
+      data: {
+
+       },
+    });
 
   /** Register new user in API, make User instance & return it.
    *
