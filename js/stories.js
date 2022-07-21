@@ -55,17 +55,20 @@ function putStoriesOnPage() {
  * then put stories on page */
 
 async function submitNewStory() {
-  const $author = $("#create-author").val();
-  const $title = $("#create-title").val();
-  const $url = $("#create-url").val();
+  const author = $("#create-author").val();
+  const title = $("#create-title").val();
+  const url = $("#create-url").val();
 
-  const newStorySubmission = await storyList.addStory(currentUser, {
-    title: $title,
-    author: $author,
-    url: $url,
+  const newStorySubmission = await storyList.addStory(currentUser,
+    {title,
+    author,
+    url
   });
 
-  putStoriesOnPage();
+  const $newStory = generateStoryMarkup(newStorySubmission);
+  $allStoriesList.prepend($newStory);
+  $allStoriesList.show();
+
   $submitForm.hide();
 }
 
