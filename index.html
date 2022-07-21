@@ -13,91 +13,131 @@
   -->
 
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Hack or Snooze</title>
+    <link
+      rel="stylesheet"
+      href="https://www.unpkg.com/bootstrap-icons/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="css/user.css" />
+    <link rel="stylesheet" href="css/stories.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Hack or Snooze</title>
-  <link rel="stylesheet" 
-        href="https://www.unpkg.com/bootstrap-icons/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="css/site.css">
-  <link rel="stylesheet" href="css/user.css">
-  <link rel="stylesheet" href="css/stories.css">
-  <link rel="stylesheet" href="css/nav.css">
-</head>
+  <body>
+    <!-- top navigation bar -->
+    <nav>
+      <div class="navbar-brand">
+        <a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
+      </div>
+      <div class="main-nav-links hidden">
+        |
+        <a class="nav-link" href="#" id="nav-submit-story">submit</a>
+        |
+        <a class="nav-link" href="#" id="nav-favorites">favorites</a>
+        |
+        <a class="nav-link" href="#" id="nav-my-stories">my&nbsp;stories</a>
+      </div>
+      <div class="nav-right">
+        <a class="nav-link" href="#" id="nav-login">login/signup</a>
+        <a class="nav-link" href="#" id="nav-user-profile"></a>
+        <a class="hidden" id="nav-logout" href="#"><small>(logout)</small></a>
+      </div>
+    </nav>
 
-<body>
+    <!-- area for stories (all stories, user stories, favorites) -->
+    <section class="stories-container container">
+      <!-- Area for add new stories form -->
+      <form action="" class="hidden" id="submit-form">
+        <div>
+          <label for="create-author">author</label>
+          <input
+            type="text"
+            id="create-author"
+            required
+            placeholder="author name"
+          />
+        </div>
+        <div>
+          <label for="create-title">title</label>
+          <input
+            type="text"
+            id="create-title"
+            required
+            placeholder="story title"
+          />
+        </div>
+        <div>
+          <label for="create-url">url</label>
+          <input type="url" id="create-url" required placeholder="story url" />
+        </div>
+        <button type="submit">submit</button>
+        <hr />
+      </form>
 
-<!-- top navigation bar -->
-<nav>
-  <div class="navbar-brand">
-    <a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
-  </div>
-  <div class="nav-right">
-    <a class="nav-link" href="#" id="nav-login">login/signup</a>
-    <a class="nav-link" href="#" id="nav-user-profile"></a>
-    <a class="hidden" id="nav-logout" href="#"><small>(logout)</small></a>
-  </div>
-</nav>
+      <!-- loading message (removed by JS after stories loaded) -->
+      <div id="stories-loading-msg">Loading&hellip;</div>
 
-<!-- area for stories (all stories, user stories, favorites) -->
-<section class="stories-container container">
+      <!-- List of all stories -->
+      <ol id="all-stories-list" class="stories-list"></ol>
+    </section>
 
-  <!-- loading message (removed by JS after stories loaded) -->
-  <div id="stories-loading-msg">Loading&hellip;</div>
+    <!-- Login and signup forms -->
+    <section class="account-forms-container container">
+      <!-- Login form -->
+      <form id="login-form" class="account-form hidden">
+        <h4>Login</h4>
+        <div class="login-input">
+          <label for="login-username">username</label>
+          <input id="login-username" autocomplete="current-username" />
+        </div>
+        <div class="login-input">
+          <label for="login-password">password</label>
+          <input
+            id="login-password"
+            type="password"
+            autocomplete="current-password"
+          />
+        </div>
+        <button type="submit">login</button>
+        <hr />
+      </form>
 
-  <!-- List of all stories -->
-  <ol id="all-stories-list" class="stories-list"></ol>
+      <!-- Signup form -->
+      <form id="signup-form" class="account-form hidden">
+        <h4>Create Account</h4>
+        <div class="login-input">
+          <label for="signup-name">name</label>
+          <input id="signup-name" autocapitalize="words" />
+        </div>
+        <div class="login-input">
+          <label for="signup-username">username</label>
+          <input id="signup-username" autocomplete="new-username" />
+        </div>
+        <div class="login-input">
+          <label for="signup-password">password</label>
+          <input
+            id="signup-password"
+            autocomplete="new-password"
+            type="password"
+          />
+        </div>
+        <button type="submit">create account</button>
+      </form>
+    </section>
 
-</section>
+    <!-- Library JS & our JS -->
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="https://unpkg.com/axios/dist/axios.js"></script>
 
-<!-- Login and signup forms -->
-<section class="account-forms-container container">
-
-  <!-- Login form -->
-  <form id="login-form" class="account-form hidden">
-    <h4>Login</h4>
-    <div class="login-input">
-      <label for="login-username">username</label>
-      <input id="login-username" autocomplete="current-username">
-    </div>
-    <div class="login-input">
-      <label for="login-password">password</label>
-      <input id="login-password" type="password" autocomplete="current-password">
-    </div>
-    <button type="submit">login</button>
-    <hr>
-  </form>
-
-  <!-- Signup form -->
-  <form id="signup-form" class="account-form hidden">
-    <h4>Create Account</h4>
-    <div class="login-input">
-      <label for="signup-name">name</label>
-      <input id="signup-name" autocapitalize="words">
-    </div>
-    <div class="login-input">
-      <label for="signup-username">username</label>
-      <input id="signup-username" autocomplete="new-username">
-    </div>
-    <div class="login-input">
-      <label for="signup-password">password</label>
-      <input id="signup-password" autocomplete="new-password" type="password">
-    </div>
-    <button type="submit">create account</button>
-  </form>
-</section>
-
-<!-- Library JS & our JS -->
-<script src="https://unpkg.com/jquery"></script>
-<script src="https://unpkg.com/axios/dist/axios.js"></script>
-
-<script src="js/models.js"></script>
-<script src="js/main.js"></script>
-<script src="js/nav.js"></script>
-<script src="js/user.js"></script>
-<script src="js/stories.js"></script>
-
-</body>
+    <script src="js/models.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/user.js"></script>
+    <script src="js/stories.js"></script>
+  </body>
 </html>
