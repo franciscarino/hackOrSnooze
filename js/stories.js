@@ -50,3 +50,26 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/** Get user input from form and get form input values, then put stories on page */
+
+async function submitNewStory() {
+  const $author = $("#create-author").val();
+  const $title = $("#create-title").val();
+  const $url = $("#create-url").val();
+
+  console.log("input values : ", $author, $title, $url);
+
+  const newStorySubmission = await storyList.addStory(currentUser, {
+    title: $title,
+    author: $author,
+    url: $url,
+  });
+  console.log("newStorySubmission: ", newStorySubmission);
+
+  putStoriesOnPage();
+}
+
+/** Listen for click on submit form */
+
+$submitForm.on("click", "#submit-story", submitNewStory);
