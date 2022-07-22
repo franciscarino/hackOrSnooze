@@ -45,3 +45,6 @@ function navSubmitStoryClick() {
 }
 
 $body.on("click", "#nav-submit-story", navSubmitStoryClick);
+
+/** Puts favorites list on page */
+function putFavoritesListOnPage() {}
