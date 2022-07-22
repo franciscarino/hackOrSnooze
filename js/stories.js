@@ -1,11 +1,19 @@
 "use strict";
 
+
+//TODO: add a hover fx on delete icon so more responsive
+//TODO: add a click to call deleteStory function
+
 // This is the global list of the stories, an instance of StoryList
 let storyList;
 
 // class attribute names for icons
 const EMPTY_STAR = "bi bi-star";
 const FILLED_STAR = "bi bi-star-fill";
+
+const EMPTY_TRASH = "bi bi-trash";
+const FILLED_TRASH = "bi bi-trash-fill";
+
 /** Get and show stories when site first loads. */
 
 async function getAndShowStoriesOnStart() {
@@ -98,6 +106,14 @@ function toggleIcon(star) {
   $icon.toggleClass(`${EMPTY_STAR} ${FILLED_STAR}`);
 }
 
+/** Adds a delete icon in front of user stories */
+
+function generateDeleteIcon() {
+  $(".star").prepend(`<span class="trash-can">
+  <i class="${EMPTY_TRASH}"></i>
+  </span>`)
+}
+
 /** toggle storyFavorites */
 
 async function toggleStoryFavorite(favoriteStory) {
@@ -181,7 +197,8 @@ function putUserStoriesOnPage() {
     const $story = generateStoryMarkup(story);
 
     $userStoriesList.append($story);
-
-    $userStoriesList.show();
   }
+  generateDeleteIcon();
+
+  $userStoriesList.show();
 }

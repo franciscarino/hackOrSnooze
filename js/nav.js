@@ -61,3 +61,5 @@ function navMyStoriesClick(evt) {
   hidePageComponents();
   putUserStoriesOnPage();
 }
+
+$body.on("click", "#nav-my-stories", navMyStoriesClick);

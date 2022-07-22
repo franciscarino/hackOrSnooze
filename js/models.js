@@ -97,6 +97,17 @@ class StoryList {
 
     return newStory;
   }
+
+  async deleteStory(story) {
+    const eraseStory = await axios({
+      url: `${BASE_URL}/stories/${story.storyId}`,
+      method: "DELETE",
+      data: {
+        token: currentUser.loginToken
+      }
+    });
+    //TODO: erase story from user.favorites/ownstory/storyList to update the UI and DOM
+  }
 }
 
 /******************************************************************************
