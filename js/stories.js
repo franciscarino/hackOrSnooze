@@ -3,6 +3,8 @@
 // This is the global list of the stories, an instance of StoryList
 let storyList;
 
+const EMPTY_STAR = "bi bi-star";
+const FILLED_STAR = "bi bi-star-fill";
 /** Get and show stories when site first loads. */
 
 async function getAndShowStoriesOnStart() {
@@ -11,8 +13,6 @@ async function getAndShowStoriesOnStart() {
 
   putStoriesOnPage();
 }
-
-//TODO: checkfor favorites function & motidify generatemarkup star
 
 /**
  * A render method to render HTML for an individual Story instance
@@ -23,12 +23,14 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
+  const isFavorite = checkIfFavorite(story.storyId); //return true or false
+  let iconClass = isFavorite ? FILLED_STAR : EMPTY_STAR;
 
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
         <span class="star">
-          <i class="bi bi-star"></i>
+          <i class="${iconClass}"></i>
         </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -92,10 +94,8 @@ $submitForm.on("click", "#submit-story", submitNewStory);
 function toggleIcon(star) {
   //if star i class = bi bi-star -> toggle to bi bi-star-fill
   const $icon = star.children("i");
-  $icon.attr("class") === "bi bi-star"
-    ? $icon.attr("class", "bi bi-star-fill")
-    : $icon.attr("class", "bi bi-star");
-  //TODO: check jQuery toggle class
+
+  $icon.toggleClass(`${EMPTY_STAR} ${FILLED_STAR}`);
 }
 
 //toggle storyFavorites
@@ -103,15 +103,18 @@ async function toggleStoryFavorite(favoriteStory) {
   const $story = favoriteStory.parent("li");
   const storyId = $story.attr("id");
 
-  console.log("$story: ", $story);
-
   const selectedStory = await Story.getStorybyStoryId(storyId);
 
-  if (currentUser.favorites.map((s) => s.storyId).includes(storyId)) {
+  if (checkIfFavorite(storyId)) {
     await currentUser.unFavorite(selectedStory.data.story);
   } else {
     await currentUser.addFavorite(selectedStory.data.story);
   }
+}
+
+function checkIfFavorite(storyId) {
+  const isFavorite = currentUser.favorites.map((s) => s.storyId).includes(storyId)
+  return isFavorite;
 }
 
 //global on click fxfunction toggleStoryFavorite
