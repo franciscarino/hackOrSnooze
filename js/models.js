@@ -27,7 +27,7 @@ class Story {
     return urlAddress.hostname.replace("www.", "");
   }
 
-  /** Returns story from Story ID */
+  /** Get and return an arbitrary story by storyId */
   static async getStorybyStoryId(id) {
     const storyResult = await axios({
       url: `${BASE_URL}/stories/${id}`,
@@ -80,12 +80,6 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  /** to POST a new story
-   * token = currentUser.loginToken
-   * story object {title:"", author"", url"}
-   * adding a new instance of story object
-   * how to get the params
-   */
   async addStory(currentUser, { title, author, url }) {
     const createStory = await axios({
       url: `${BASE_URL}/stories`,
@@ -129,6 +123,9 @@ class User {
     this.loginToken = token;
   }
 
+  /** POST a favorite story to the API
+   * and updates the user's favorites */
+
   async addFavorite(story) {
     const username = this.username;
     const storyId = story.storyId;
@@ -145,6 +142,9 @@ class User {
     this.favorites.push(newStory);
   }
 
+  /** DELETE a favorite story in the API
+   * and removes it from the user's favorites */
+
   async unFavorite(story) {
     const username = this.username;
     const storyId = story.storyId;
@@ -158,6 +158,7 @@ class User {
     });
     this.favorites = this.favorites.filter((s) => s.storyId !== storyId);
   }
+  
   /** Register new user in API, make User instance & return it.
    *
    * - username: a new username

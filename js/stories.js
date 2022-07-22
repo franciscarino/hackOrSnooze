@@ -3,6 +3,7 @@
 // This is the global list of the stories, an instance of StoryList
 let storyList;
 
+// class attribute names for icons
 const EMPTY_STAR = "bi bi-star";
 const FILLED_STAR = "bi bi-star-fill";
 /** Get and show stories when site first loads. */
@@ -84,22 +85,16 @@ async function submitNewStory() {
 
 $submitForm.on("click", "#submit-story", submitNewStory);
 
-/** TO DO:
- * "ON CLICK" -> star icon
- * 1. toggles icon from blank star to filled star in the DOM (seperate fx)
- * 2. check if parent li for storyID (2-5 is another fx)
- * 3. check if storyID is in currentUser.favorites
- * 4. if yes -> call unfavorite fx
- * 5. if no -> call addfavorite fx
- */
+/** Toggles between filled and unfilled star icon for favorites */
+
 function toggleIcon(star) {
-  //if star i class = bi bi-star -> toggle to bi bi-star-fill
   const $icon = star.children("i");
 
   $icon.toggleClass(`${EMPTY_STAR} ${FILLED_STAR}`);
 }
 
-//toggle storyFavorites
+/** toggle storyFavorites */
+
 async function toggleStoryFavorite(favoriteStory) {
   const $story = favoriteStory.parent("li");
   const storyId = $story.attr("id");
@@ -113,6 +108,10 @@ async function toggleStoryFavorite(favoriteStory) {
   }
 }
 
+/** Check if a story is already a user favorite
+ * returns (boolean) true or false
+ */
+
 function checkIfFavorite(storyId) {
   const isFavorite = currentUser.favorites
     .map((s) => s.storyId)
@@ -120,8 +119,11 @@ function checkIfFavorite(storyId) {
   return isFavorite;
 }
 
-//global on click fxfunction toggleStoryFavorite
-$allStoriesList.on("click", ".star", function (evt) {
+/** Listen for click on star and calls toggle icon function
+ * and adds/removes favorite
+ */
+
+$body.on("click", ".star", function (evt) {
   const targetStory = $(evt.target).closest(".star");
   toggleIcon(targetStory);
   toggleStoryFavorite(targetStory);

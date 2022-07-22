@@ -47,11 +47,12 @@ function navSubmitStoryClick(evt) {
 
 $body.on("click", "#nav-submit-story", navSubmitStoryClick);
 
+/** When a user clicks on Favorites in the Nav, display list of favorites
+ * and hide story list*/
 function navFavoritesClick(evt) {
   console.debug("navFavoritesClick", evt);
   hidePageComponents();
   putFavoritesListOnPage();
 }
 
-/** Puts favorites list on page */
 $body.on("click", "#nav-favorites", navFavoritesClick);
