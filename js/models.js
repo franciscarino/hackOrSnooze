@@ -27,8 +27,13 @@ class Story {
     return urlAddress.hostname.replace("www.", "");
   }
 
-  static async getStorybyStoryId(storyId) {
-    
+  /** Returns story from Story ID */
+  static async getStorybyStoryId(id) {
+    const storyResult = await axios({
+      url: `${BASE_URL}/stories/${id}`,
+      method: "GET",
+    });
+    return storyResult;
   }
 }
 
@@ -150,7 +155,7 @@ class User {
         token: this.loginToken,
       },
     });
-    this.favorites = this.favorites.filter(s => s.storyId !== storyId)
+    this.favorites = this.favorites.filter((s) => s.storyId !== storyId);
   }
   /** Register new user in API, make User instance & return it.
    *

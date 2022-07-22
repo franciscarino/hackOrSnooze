@@ -64,12 +64,11 @@ async function submitNewStory() {
   const title = $("#create-title").val();
   const url = $("#create-url").val();
 
-  const newStorySubmission = await storyList.addStory(currentUser,
-    {
-      title,
-      author,
-      url
-    });
+  const newStorySubmission = await storyList.addStory(currentUser, {
+    title,
+    author,
+    url,
+  });
 
   const $newStory = generateStoryMarkup(newStorySubmission);
   $allStoriesList.prepend($newStory);
@@ -93,25 +92,31 @@ $submitForm.on("click", "#submit-story", submitNewStory);
 function toggleIcon(star) {
   //if star i class = bi bi-star -> toggle to bi bi-star-fill
   const $icon = star.children("i");
-  $icon.attr("class") === "bi bi-star" ?
-    $icon.attr("class", "bi bi-star-fill") :
-    $icon.attr("class", "bi bi-star");
-    //TODO: check jQuery toggle class
+  $icon.attr("class") === "bi bi-star"
+    ? $icon.attr("class", "bi bi-star-fill")
+    : $icon.attr("class", "bi bi-star");
+  //TODO: check jQuery toggle class
 }
 
 //toggle storyFavorites
-function toggleStoryFavorite(favoriteStory) {
-const $story = favoriteStory.parent("li");
-const storyId =$story.attr("id");
+async function toggleStoryFavorite(favoriteStory) {
+  const $story = favoriteStory.parent("li");
+  const storyId = $story.attr("id");
 
-currentUser.favorites.includes(story) ? //check if its already favorited
-  currentUser.unfavorite(story) : //TODO: get story by story ID
-  currentUser.addFavorite(story);
+  console.log("$story: ", $story);
+
+  const selectedStory = await Story.getStorybyStoryId(storyId);
+
+  if (currentUser.favorites.map((s) => s.storyId).includes(storyId)) {
+    await currentUser.unFavorite(selectedStory.data.story);
+  } else {
+    await currentUser.addFavorite(selectedStory.data.story);
+  }
 }
 
 //global on click fxfunction toggleStoryFavorite
 $allStoriesList.on("click", function (evt) {
-  const star = $(evt.target).closest(".star");
-  toggleIcon(star);
-
+  const targetStory = $(evt.target).closest(".star");
+  toggleIcon(targetStory);
+  toggleStoryFavorite(targetStory);
 });
