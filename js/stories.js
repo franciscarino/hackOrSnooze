@@ -24,16 +24,11 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
-  const isFavorite = checkIfFavorite(story.storyId); //return true or false
-  let iconClass = isFavorite ? FILLED_STAR : EMPTY_STAR;
-
   const hostName = story.getHostName();
 
   return $(`
       <li id="${story.storyId}">
-        <span class="star">
-          <i class="${iconClass}"></i>
-        </span>
+        <span class="star">${generateIconHtmlMarkup(story)}</span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -84,6 +79,16 @@ async function submitNewStory() {
 /** Listen for click on submit form */
 
 $submitForm.on("click", "#submit-story", submitNewStory);
+
+/**Create Icon Html element with the correct icon
+ * depending on if story is a user favorite or not*/
+
+function generateIconHtmlMarkup(story) {
+  const isFavorite = checkIfFavorite(story.storyId); //return true or false
+  let iconClass = isFavorite ? FILLED_STAR : EMPTY_STAR;
+
+  return `<i class="${iconClass}"></i>`;
+}
 
 /** Toggles between filled and unfilled star icon for favorites */
 
@@ -141,5 +146,19 @@ function putFavoritesListOnPage() {
     $favoritedStoriesList.append($story);
 
     $favoritedStoriesList.show();
+  }
+}
+
+/** Given array of user own stories, display user stories on page */
+
+function putUserStoriesOnPage() {
+  $allStoriesList.hide();
+
+  for (let story of currentUser.ownStories) {
+    const $story = generateStoryMarkup(story);
+
+    $userStoriesList.append($story);
+
+    $userStoriesList.show();
   }
 }
