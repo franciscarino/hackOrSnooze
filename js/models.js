@@ -91,7 +91,9 @@ class StoryList {
     });
     const newStory = new Story(createStory.data.story);
 
-    this.stories.unshift(newStory);
+    this.stories.unshift(newStory); //adds new story to top of the story list
+
+    currentUser.ownStories.push(newStory); //add story to user's stories
 
     return newStory;
   }
@@ -158,7 +160,7 @@ class User {
     });
     this.favorites = this.favorites.filter((s) => s.storyId !== storyId);
   }
-  
+
   /** Register new user in API, make User instance & return it.
    *
    * - username: a new username

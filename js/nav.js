@@ -56,3 +56,8 @@ function navFavoritesClick(evt) {
 }
 
 $body.on("click", "#nav-favorites", navFavoritesClick);
+
+function navMyStoriesClick(evt) {
+  hidePageComponents();
+  putUserStoriesOnPage();
+}

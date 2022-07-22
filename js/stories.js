@@ -138,7 +138,18 @@ $body.on("click", ".star", function (evt) {
 
 function putFavoritesListOnPage() {
   $allStoriesList.hide();
+  $userStoriesList.hide();
   $favoritedStoriesList.empty();
+
+  if (currentUser.favorites.length === 0) {
+    $favoritedStoriesList.append(
+      "<h5>No favorites added by user yet!</h5>"
+    )
+
+    $favoritedStoriesList.show();
+
+    return;
+  }
 
   for (let story of currentUser.favorites) {
     const $story = generateStoryMarkup(story);
@@ -153,6 +164,18 @@ function putFavoritesListOnPage() {
 
 function putUserStoriesOnPage() {
   $allStoriesList.hide();
+  $favoritedStoriesList.hide();
+  $userStoriesList.empty();
+
+  if (currentUser.ownStories.length === 0) {
+    $userStoriesList.append(
+      "<h5>No stories added by user yet!</h5>"
+    )
+
+    $userStoriesList.show();
+
+    return;
+  }
 
   for (let story of currentUser.ownStories) {
     const $story = generateStoryMarkup(story);
