@@ -26,6 +26,10 @@ class Story {
     const urlAddress = new URL(this.url);
     return urlAddress.hostname.replace("www.", "");
   }
+
+  static async getStorybyStoryId(storyId) {
+    
+  }
 }
 
 /******************************************************************************
@@ -132,7 +136,7 @@ class User {
       },
     });
 
-    this.favorites.push(story)
+    this.favorites.push(story);
   }
 
   async unFavorite(story) {
