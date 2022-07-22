@@ -27,6 +27,7 @@ function generateStoryMarkup(story) {
   let iconClass = isFavorite ? FILLED_STAR : EMPTY_STAR;
 
   const hostName = story.getHostName();
+
   return $(`
       <li id="${story.storyId}">
         <span class="star">
@@ -113,13 +114,30 @@ async function toggleStoryFavorite(favoriteStory) {
 }
 
 function checkIfFavorite(storyId) {
-  const isFavorite = currentUser.favorites.map((s) => s.storyId).includes(storyId)
+  const isFavorite = currentUser.favorites
+    .map((s) => s.storyId)
+    .includes(storyId);
   return isFavorite;
 }
 
 //global on click fxfunction toggleStoryFavorite
-$allStoriesList.on("click", function (evt) {
+$allStoriesList.on("click", ".star", function (evt) {
   const targetStory = $(evt.target).closest(".star");
   toggleIcon(targetStory);
   toggleStoryFavorite(targetStory);
 });
+
+/**Given favorites array, use generateStoryMarkup to populate and append favorites to favorites class */
+
+function putFavoritesListOnPage() {
+  $allStoriesList.hide();
+  $favoritedStoriesList.empty();
+
+  for (let story of currentUser.favorites) {
+    const $story = generateStoryMarkup(story);
+
+    $favoritedStoriesList.append($story);
+
+    $favoritedStoriesList.show();
+  }
+}

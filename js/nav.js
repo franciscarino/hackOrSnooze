@@ -40,11 +40,18 @@ function updateNavOnLogin() {
 /** When users click the new “submit” navbar link
  * unhides submit form
  */
-function navSubmitStoryClick() {
+function navSubmitStoryClick(evt) {
+  console.debug("navSubmitStoryClick", evt);
   $submitForm.show();
 }
 
 $body.on("click", "#nav-submit-story", navSubmitStoryClick);
 
+function navFavoritesClick(evt) {
+  console.debug("navFavoritesClick", evt);
+  hidePageComponents();
+  putFavoritesListOnPage();
+}
+
 /** Puts favorites list on page */
-function putFavoritesListOnPage() {}
+$body.on("click", "#nav-favorites", navFavoritesClick);

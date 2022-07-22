@@ -140,8 +140,9 @@ class User {
         token: this.loginToken,
       },
     });
+    const newStory = new Story(story);
 
-    this.favorites.push(story);
+    this.favorites.push(newStory);
   }
 
   async unFavorite(story) {
