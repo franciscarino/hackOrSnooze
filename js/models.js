@@ -124,8 +124,6 @@ class User {
     const username = this.username;
     const storyId = story.storyId;
 
-    console.log("story: ", story);
-
     await axios({
       url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
       method: "POST",
@@ -133,7 +131,8 @@ class User {
         token: this.loginToken,
       },
     });
-    //add favorites.push(story);
+
+    this.favorites.push(story)
   }
 
   async unFavorite(story) {
@@ -147,6 +146,7 @@ class User {
         token: this.loginToken,
       },
     });
+    this.favorites = this.favorites.filter(s => s.storyId !== storyId)
   }
   /** Register new user in API, make User instance & return it.
    *
